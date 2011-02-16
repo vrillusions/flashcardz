@@ -1,0 +1,4 @@
+# FlashcardZ
+
+Basic python script to use for flash cards.  give it a list of words and you
+need to type the answer
