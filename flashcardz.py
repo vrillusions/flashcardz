@@ -11,6 +11,7 @@ __version__ = "0.1"
 import sys
 import os
 import traceback
+import random
 from optparse import OptionParser
 
 
@@ -41,8 +42,46 @@ def main():
         (question, answer) = line.rstrip().split('|')
         questions[question] = answer
         line = fh.readline()
-    print questions
-    
+    print 'Type the answer to the question, q to quit or s for solution.'
+    print
+    newquestion = True
+    # we'll increment a couple counters
+    number_correct = 0
+    number_wrong = 0
+    while True:
+        if newquestion:
+            # dictionaries are pretty messy to try and get a random line from it
+            i = random.randint(0, len(questions))
+            linecount = 0
+            for question, answer in questions.items():
+                if i == linecount:
+                    # we have our question and answer, leave the loop
+                    break;
+                else:
+                    linecount += 1
+            newquestion = False;
+        msg = raw_input(question + ' = ')
+        if msg == 'q':
+            # quit the while loop
+            print
+            print 'Number of quetions:'
+            print 'correct', str(number_correct)
+            print 'wrong  ', str(number_wrong)
+            break;
+        elif msg == 's':
+            # print the solution and then get a new question
+            print 'The answer was: ' + answer
+            newquestion = True
+        elif msg == answer:
+            # they answered correctly, new question
+            print 'CORRECT!'
+            number_correct += 1
+            newquestion = True
+        else:
+            # didn't answer correctly and not a command, retry
+            print 'WRONG! Try again.'
+            number_wrong += 1
+
 
 if __name__ == "__main__":
 	try:
